@@ -15,20 +15,22 @@ const ICONS_BY_VARIANT = {
   notice: Info,
   warning: AlertTriangle,
   success: CheckCircle,
-  error: AlertOctagon,
+  error: AlertOctagon
 };
 
-function Toast() {
+function Toast({radioValue: Variant = '', setShowToast, children}) {
+  const Icon = Variant ? ICONS_BY_VARIANT[Variant] : ICONS_BY_VARIANT['notice'];
+
   return (
-    <div className={`${styles.toast} ${styles.notice}`}>
+    <div className={`${styles.toast} ${styles[Variant]}`}>
       <div className={styles.iconContainer}>
-        <Info size={24} />
+        <Icon size={24} />
       </div>
       <p className={styles.content}>
-        16 photos have been uploaded
+        {children}
       </p>
       <button className={styles.closeButton}>
-        <X size={24} />
+        <X size={24} onClick={() => {setShowToast(false)}} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
     </div>
