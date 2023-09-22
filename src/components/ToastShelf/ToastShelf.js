@@ -15,12 +15,19 @@ function ToastShelf({ toastCollection, setToastCollection }) {
   }
 
   return (
-    <ol className={styles.wrapper}>
+    <ol
+    role="region"
+    aria-live='polite'
+    aria-label='Notification'
+    className={styles.wrapper}>
      {toastCollection.map((toast, index) => {
         return (
           <li className={styles.toastWrapper} key={Math.random()}>
             {toast}
-            <button className={styles.closeButton}>
+            <button 
+            aria-label="Dismiss Message"
+            aria-live="off"
+            className={styles.closeButton}>
               <X size={24} color={"black"} onClick={() => removeToast(index)} />
               <VisuallyHidden>Dismiss message</VisuallyHidden>
             </button>

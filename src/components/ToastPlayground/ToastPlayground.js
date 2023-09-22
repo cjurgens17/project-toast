@@ -5,6 +5,7 @@ import Button from '../Button';
 import styles from './ToastPlayground.module.css';
 import ToastShelf from '../ToastShelf';
 import Toast from '../Toast';
+import useEscapeKey from '../../hooks/escapeKey';
 
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
@@ -19,6 +20,12 @@ function ToastPlayground() {
   const [radioValue, setRadioValue] = React.useState('notice');
   const[showToast, setShowToast] = React.useState(false);
   const [toastCollection , setToastCollection] = React.useState([]);
+
+  //Remove ToastShelf on keyPress
+ const handleEscape = React.useCallback(() => {
+  setToastCollection([]);
+ },[]);
+ useEscapeKey(handleEscape);
 
 
   return (
