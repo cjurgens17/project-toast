@@ -4,10 +4,9 @@ import {
   AlertTriangle,
   CheckCircle,
   Info,
-  X,
 } from 'react-feather';
 
-import VisuallyHidden from '../VisuallyHidden';
+
 
 import styles from './Toast.module.css';
 
@@ -20,7 +19,7 @@ const ICONS_BY_VARIANT = {
 };
 
 
-function Toast({radioValue: Variant = '', setShowToast, children}) {
+function Toast({radioValue: Variant = '',  message}) {
   const Icon = Variant ? ICONS_BY_VARIANT[Variant] : ICONS_BY_VARIANT['notice'];
   return (
     <div className={`${styles.toast} ${styles[Variant]}`}>
@@ -28,12 +27,8 @@ function Toast({radioValue: Variant = '', setShowToast, children}) {
         <Icon size={24} />
       </div>
       <p className={styles.content}>
-        {children}
+        {message}
       </p>
-      <button className={styles.closeButton}>
-        <X size={24} onClick={() => {setShowToast(false)}} />
-        <VisuallyHidden>Dismiss message</VisuallyHidden>
-      </button>
     </div>
   );
 }
