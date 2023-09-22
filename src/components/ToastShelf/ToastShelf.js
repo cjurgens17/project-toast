@@ -1,19 +1,34 @@
-import React from 'react';
+import React from "react";
 
-import Toast from '../Toast';
-import styles from './ToastShelf.module.css';
+import styles from "./ToastShelf.module.css";
 
-function ToastShelf() {
+import VisuallyHidden from "../VisuallyHidden";
+
+import { X } from "react-feather";
+
+function ToastShelf({ toastCollection, setToastCollection }) {
+  
+  function removeToast(index) {
+    const nextToastCollection = [...toastCollection];
+    nextToastCollection.splice(index, 1);
+    setToastCollection(nextToastCollection);
+  }
+
   return (
     <ol className={styles.wrapper}>
-      <li className={styles.toastWrapper}>
-        <Toast variant="notice">Example notice toast</Toast>
-      </li>
-      <li className={styles.toastWrapper}>
-        <Toast variant="error">Example error toast</Toast>
-      </li>
+      {toastCollection.map((toast, index) => {
+        return (
+          <li className={styles.toastWrapper} key={Math.random()}>
+            {toast}
+            <button className={styles.closeButton}>
+              <X size={24} color={"black"} onClick={() => removeToast(index)} />
+              <VisuallyHidden>Dismiss message</VisuallyHidden>
+            </button>
+          </li>
+        );
+      })}
     </ol>
   );
 }
 
-export default ToastShelf;
+export default React.memo(ToastShelf);

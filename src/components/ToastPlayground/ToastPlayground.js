@@ -4,15 +4,25 @@ import Button from '../Button';
 
 import styles from './ToastPlayground.module.css';
 
-import Toast  from '../Toast';
+import Toast from '../Toast';
+
+import ToastShelf  from '../ToastShelf';
+
+
+
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
+
+function createToast(message, radioValue){
+  return <Toast message={message} radioValue={radioValue}></Toast>
+}
 
 function ToastPlayground() {
 
   const [message, setMessage] = React.useState('');
   const [radioValue, setRadioValue] = React.useState('');
   const[showToast, setShowToast] = React.useState(false);
+  const [toastCollection , setToastCollection] = React.useState([]);
 
   return (
     <div className={styles.wrapper}>
@@ -21,11 +31,25 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {showToast && (<Toast radioValue={radioValue} setShowToast={setShowToast}>{message}</Toast>)}
+     
+      {showToast && (<ToastShelf toastCollection={toastCollection} setToastCollection={setToastCollection}></ToastShelf>)}
 
       <form
         onSubmit={(event) => {
           event.preventDefault();
+
+          const nextToastCollection = [
+            ...toastCollection,
+            createToast(message,radioValue)
+          ];
+          setToastCollection(nextToastCollection);
+
+          const nextMessage = '';
+          setMessage(nextMessage);
+
+          const nextRadioValue = 'notice';
+          setRadioValue(nextRadioValue);
+
           setShowToast(true);
         }}
       >
