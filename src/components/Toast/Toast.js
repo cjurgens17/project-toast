@@ -4,12 +4,13 @@ import {
   AlertTriangle,
   CheckCircle,
   Info,
+  X,
 } from 'react-feather';
 
-
+import VisuallyHidden from '../VisuallyHidden';
 
 import styles from './Toast.module.css';
-import { ToastContext } from '../ToastProvider/ToastProvider';
+
 
 const ICONS_BY_VARIANT = {
   notice: Info,
@@ -18,18 +19,21 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon
 };
 
-function Toast() {
-  const {toast} = React.useContext(ToastContext);
-  const Icon = toast.radioValue ? ICONS_BY_VARIANT[toast.radioValue] : ICONS_BY_VARIANT['notice'];
 
+function Toast({radioValue: Variant = '', setShowToast, children}) {
+  const Icon = Variant ? ICONS_BY_VARIANT[Variant] : ICONS_BY_VARIANT['notice'];
   return (
-    <div className={`${styles.toast} ${styles[toast.radioValue]}`}>
+    <div className={`${styles.toast} ${styles[Variant]}`}>
       <div className={styles.iconContainer}>
         <Icon size={24} />
       </div>
       <p className={styles.content}>
-        {toast.message}
+        {children}
       </p>
+      <button className={styles.closeButton}>
+        <X size={24} onClick={() => {setShowToast(false)}} />
+        <VisuallyHidden>Dismiss message</VisuallyHidden>
+      </button>
     </div>
   );
 }

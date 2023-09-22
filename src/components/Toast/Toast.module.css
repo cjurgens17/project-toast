@@ -27,6 +27,14 @@
   display: block;
 }
 
+.closeButton {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 16px;
+  cursor: pointer;
+}
+
 .notice {
   background: var(--color-notice-bg);
 }

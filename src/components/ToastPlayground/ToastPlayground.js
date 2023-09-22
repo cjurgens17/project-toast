@@ -3,13 +3,7 @@ import React from 'react';
 import Button from '../Button';
 
 import styles from './ToastPlayground.module.css';
-
-import Toast from '../Toast';
-
-import ToastShelf  from '../ToastShelf';
-import { ToastContext } from '../ToastProvider/ToastProvider';
-
-
+import Toast  from '../Toast';
 
 
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
@@ -18,10 +12,15 @@ function createToast(message, radioValue){
   return <Toast message={message} radioValue={radioValue}></Toast>
 }
 
+
 function ToastPlayground() {
-  const {toast} = React.useContext(ToastContext);
-  const [ showToast, setShowToast ] = React.useState(false);
-  const [ toastCollection , setToastCollection ] = React.useState([]);
+
+ 
+  const [message, setMessage] = React.useState('');
+  const [radioValue, setRadioValue] = React.useState('');
+  const[showToast, setShowToast] = React.useState(false);
+  const [toastCollection , setToastCollection] = React.useState([]);
+
 
   return (
     <div className={styles.wrapper}>
@@ -30,24 +29,23 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-     
-      {showToast && (<ToastShelf toastCollection={toastCollection} setToastCollection={setToastCollection}></ToastShelf>)}
+      {showToast && (<Toast radioValue={radioValue} setShowToast={setShowToast}>{message}</Toast>)}
 
       <form
         onSubmit={(event) => {
-          event.preventDefault();
+          event.preventDefault(); 
 
           const nextToastCollection = [
             ...toastCollection,
-            createToast(toast.message,toast.radioValue)
+            createToast(message,radioValue)
           ];
           setToastCollection(nextToastCollection);
 
           const nextMessage = '';
-          toast.setMessage(nextMessage);
+          setMessage(nextMessage);
 
           const nextRadioValue = 'notice';
-          toast.setRadioValue(nextRadioValue);
+          setRadioValue(nextRadioValue);
 
           setShowToast(true);
         }}
@@ -62,7 +60,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} value={toast.message}  onChange={(event) => toast.setMessage(event.target.value)} />
+            <textarea id="message" className={styles.messageInput} value={message}  onChange={(event) => setMessage(event.target.value)} />
           </div>
         </div>
 
@@ -80,8 +78,8 @@ function ToastPlayground() {
                 type="radio"
                 name="variant"
                 value={variant}
-                checked={toast.radioValue === variant}
-                onChange={(event) => toast.setRadioValue(event.target.value)}
+                checked={radioValue === variant}
+                onChange={(event) => setRadioValue(event.target.value)}
               />
               {variant}
             </label>
