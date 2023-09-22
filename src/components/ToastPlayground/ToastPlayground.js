@@ -7,6 +7,7 @@ import styles from './ToastPlayground.module.css';
 import Toast from '../Toast';
 
 import ToastShelf  from '../ToastShelf';
+import { ToastContext } from '../ToastProvider/ToastProvider';
 
 
 
@@ -18,11 +19,9 @@ function createToast(message, radioValue){
 }
 
 function ToastPlayground() {
-
-  const [message, setMessage] = React.useState('');
-  const [radioValue, setRadioValue] = React.useState('');
-  const[showToast, setShowToast] = React.useState(false);
-  const [toastCollection , setToastCollection] = React.useState([]);
+  const {toast} = React.useContext(ToastContext);
+  const [ showToast, setShowToast ] = React.useState(false);
+  const [ toastCollection , setToastCollection ] = React.useState([]);
 
   return (
     <div className={styles.wrapper}>
@@ -40,15 +39,15 @@ function ToastPlayground() {
 
           const nextToastCollection = [
             ...toastCollection,
-            createToast(message,radioValue)
+            createToast(toast.message,toast.radioValue)
           ];
           setToastCollection(nextToastCollection);
 
           const nextMessage = '';
-          setMessage(nextMessage);
+          toast.setMessage(nextMessage);
 
           const nextRadioValue = 'notice';
-          setRadioValue(nextRadioValue);
+          toast.setRadioValue(nextRadioValue);
 
           setShowToast(true);
         }}
@@ -63,7 +62,7 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} value={message}  onChange={(event) => setMessage(event.target.value)} />
+            <textarea id="message" className={styles.messageInput} value={toast.message}  onChange={(event) => toast.setMessage(event.target.value)} />
           </div>
         </div>
 
@@ -81,8 +80,8 @@ function ToastPlayground() {
                 type="radio"
                 name="variant"
                 value={variant}
-                checked={radioValue === variant}
-                onChange={(event) => setRadioValue(event.target.value)}
+                checked={toast.radioValue === variant}
+                onChange={(event) => toast.setRadioValue(event.target.value)}
               />
               {variant}
             </label>

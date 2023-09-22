@@ -9,6 +9,7 @@ import {
 
 
 import styles from './Toast.module.css';
+import { ToastContext } from '../ToastProvider/ToastProvider';
 
 const ICONS_BY_VARIANT = {
   notice: Info,
@@ -17,16 +18,17 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon
 };
 
-function Toast({radioValue: Variant = '', message}) {
-  const Icon = Variant ? ICONS_BY_VARIANT[Variant] : ICONS_BY_VARIANT['notice'];
+function Toast() {
+  const {toast} = React.useContext(ToastContext);
+  const Icon = toast.radioValue ? ICONS_BY_VARIANT[toast.radioValue] : ICONS_BY_VARIANT['notice'];
 
   return (
-    <div className={`${styles.toast} ${styles[Variant]}`}>
+    <div className={`${styles.toast} ${styles[toast.radioValue]}`}>
       <div className={styles.iconContainer}>
         <Icon size={24} />
       </div>
       <p className={styles.content}>
-        {message}
+        {toast.message}
       </p>
     </div>
   );
